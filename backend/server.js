@@ -2,25 +2,35 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 // Middleware
 app.use(bodyParser.json());
+app.use(
+  cors({
+    // Step 2: Use the CORS middleware
+    origin: "http://localhost:3001", // This allows only your React app to make requests to the server
+  })
+);
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.DB_CONNECTION, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    "mongodb+srv://dhruvvarshneyemail:hoohacks2024@hoohacks2024.otyt9ir.mongodb.net/bytes",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
 // Model
 const Item = mongoose.model(
-  "Item",
+  "SchoolNews",
   new mongoose.Schema({
     title: String,
     imageUrl: String,
@@ -29,7 +39,7 @@ const Item = mongoose.model(
 );
 
 // Routes
-app.post("/items", async (req, res) => {
+app.post("/news", async (req, res) => {
   const { title, imageUrl, description } = req.body;
   const newItem = new Item({
     title,
@@ -44,7 +54,7 @@ app.post("/items", async (req, res) => {
   }
 });
 
-app.get("/items", async (req, res) => {
+app.get("/news", async (req, res) => {
   try {
     const items = await Item.find();
     res.json(items);

@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import DataComponent from "../Components/DataComponent";
 import "./AdminDashboard.css";
 import deleteIcon from "../assets/delete.png";
+import Modal from "react-modal";
+import axios from "axios";
 
 const AdminDashboard = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [data, setData] = useState([
     {
       id: 1,
@@ -37,7 +43,47 @@ const AdminDashboard = () => {
     },
     // Add more data objects as needed
   ]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleSubmit = async () => {
+    console.log("Selected File:", selectedFile);
+    console.log("Title:", title);
+    console.log("Description:", description);
+
+    // Construct the object to send
+    const newsItem = {
+      title: title,
+      description: description,
+      imageUrl: "URL_PLACEHOLDER", // Replace 'URL_PLACEHOLDER' with the actual image URL after uploading
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5001/news",
+        newsItem,
+        {
+          headers: {
+            "Content-Type": "application/json", // Indicate that you're sending JSON data
+          },
+        }
+      );
+      console.log("News Item Saved:", response.data);
+      // Update UI accordingly or navigate as needed
+    } catch (error) {
+      console.error("Error posting news:", error);
+    }
+    // Close the modal after submission
+    closeModal();
+  };
 
   const handleAddData = () => {
     // Logic to add new data
@@ -60,10 +106,30 @@ const AdminDashboard = () => {
       <div className="welcome-message-container">
         <div className="welcome-message">Welcome, Administrator @ UVA!</div>
       </div>
-      <button className="add-button" onClick={handleAddData}>
+      <button className="add-button" onClick={openModal}>
         +
       </button>
-
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Add Data Modal"
+      >
+        <h2>Add Data</h2>
+        <input type="file" onChange={handleFileChange} />
+        <input
+          type="text"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <textarea
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        ></textarea>
+        <button onClick={handleSubmit}>Submit</button>
+        <button onClick={closeModal}>Close</button>
+      </Modal>
       <div className="data-container">
         {data.map((item) => (
           <DataComponent
