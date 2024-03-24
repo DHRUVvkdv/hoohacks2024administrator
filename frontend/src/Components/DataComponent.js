@@ -32,7 +32,13 @@ function DataComponent({ item, onEdit, onDelete }) {
 
   return (
     <div className="data-component">
-      {/* Displaying item data */}
+      <img src={item.imageUrl} className="card-img-top" alt={item.title} />
+
+      <div className="data-description">
+        <h5 className="data-title">{item.title}</h5>
+        <p>{item.description}</p> {/* Ensure description is rendered */}
+      </div>
+
       <div className="card-icon-container">
         <img
           src={editIcon}
@@ -46,11 +52,6 @@ function DataComponent({ item, onEdit, onDelete }) {
           className="card-delete-icon"
           onClick={handleDelete}
         />
-      </div>
-      <div className="data-description">
-        <h5 className="data-title">{item.title}</h5>
-        <img src={item.picture} className="card-img-top" alt={item.title} />
-        <p>{item.description}</p> {/* Ensure description is rendered */}
       </div>
     </div>
   );

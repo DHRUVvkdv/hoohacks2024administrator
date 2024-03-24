@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DataComponent from "../Components/DataComponent";
 import "./AdminDashboard.css";
 import deleteIcon from "../assets/delete.png";
@@ -10,39 +10,21 @@ const AdminDashboard = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [data, setData] = useState([
-    {
-      id: 1,
-      picture: "deleteIcon",
-      title: "Data 1",
-      description: "Description of Data 1",
-    },
-    {
-      id: 2,
-      picture: "https://example.com/image2.jpg",
-      title: "Data 2",
-      description: "Description of Data 2",
-    },
-    {
-      id: 3,
-      picture: "https://example.com/image2.jpg",
-      title: "Data 2",
-      description: "Description of Data 2",
-    },
-    {
-      id: 4,
-      picture: "https://example.com/image2.jpg",
-      title: "Data 2",
-      description: "Description of Data 2",
-    },
-    {
-      id: 5,
-      picture: "https://example.com/image2.jpg",
-      title: "Data 2",
-      description: "Description of Data 2",
-    },
-    // Add more data objects as needed
-  ]);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    // Fetch data from the backend when the component mounts
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:5001/news");
+        setData(response.data); // Set the data in state
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error, e.g., show a notification to the user
+      }
+    };
+
+    fetchData();
+  }, []);
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -55,18 +37,31 @@ const AdminDashboard = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("Selected File:", selectedFile);
-    console.log("Title:", title);
-    console.log("Description:", description);
+    if (!selectedFile) {
+      alert("Please select a file.");
+      return;
+    }
 
-    // Construct the object to send
-    const newsItem = {
-      title: title,
-      description: description,
-      imageUrl: "URL_PLACEHOLDER", // Replace 'URL_PLACEHOLDER' with the actual image URL after uploading
-    };
+    // First, upload the image to Cloudinary
+    const cloudinaryFormData = new FormData();
+    cloudinaryFormData.append("file", selectedFile);
+    cloudinaryFormData.append("upload_preset", "wgdt7lvl");
 
     try {
+      const cloudinaryResponse = await axios.post(
+        "https://api.cloudinary.com/v1_1/dru4ekf2q/image/upload",
+        cloudinaryFormData
+      );
+      const imageUrl = cloudinaryResponse.data.secure_url;
+
+      // Then, construct the news item with the image URL
+      const newsItem = {
+        title: title,
+        description: description,
+        imageUrl: imageUrl, // Use the URL from Cloudinary
+      };
+
+      // Finally, post the news item to your database
       const response = await axios.post(
         "http://localhost:5001/news",
         newsItem,
@@ -77,10 +72,12 @@ const AdminDashboard = () => {
         }
       );
       console.log("News Item Saved:", response.data);
-      // Update UI accordingly or navigate as needed
+      // Here you can update state, show a success message, navigate, etc.
     } catch (error) {
-      console.error("Error posting news:", error);
+      console.error("Error:", error);
+      // Here you should handle errors, show error messages, etc.
     }
+
     // Close the modal after submission
     closeModal();
   };
@@ -133,10 +130,10 @@ const AdminDashboard = () => {
       <div className="data-container">
         {data.map((item) => (
           <DataComponent
-            key={item.id} // Correctly using 'key' here
+            key={item._id} // Correctly using 'key' here
             item={item} // Pass the whole item object
-            onEdit={() => handleEditData(item.id)}
-            onDelete={() => handleDeleteData(item.id)}
+            onEdit={() => handleEditData(item._id)}
+            onDelete={() => handleDeleteData(item._id)}
           />
         ))}
       </div>
