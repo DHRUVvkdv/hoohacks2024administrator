@@ -7,7 +7,7 @@ const AdminDashboard = () => {
   const [data, setData] = useState([
     {
       id: 1,
-      picture: deleteIcon,
+      picture: "deleteIcon",
       title: "Data 1",
       description: "Description of Data 1",
     },
@@ -37,6 +37,7 @@ const AdminDashboard = () => {
     },
     // Add more data objects as needed
   ]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAddData = () => {
     // Logic to add new data
@@ -66,17 +67,13 @@ const AdminDashboard = () => {
       <div className="data-container">
         {data.map((item) => (
           <DataComponent
-            key={item.id}
-            picture={item.picture}
-            title={item.title}
-            description={item.description}
+            key={item.id} // Correctly using 'key' here
+            item={item} // Pass the whole item object
             onEdit={() => handleEditData(item.id)}
             onDelete={() => handleDeleteData(item.id)}
           />
         ))}
       </div>
-
-      
     </div>
   );
 };
