@@ -9,21 +9,6 @@ import "./DataComponent.css";
 function DataComponent({ item, onEdit, onDelete }) {
   const navigate = useNavigate();
 
-  const handleDelete = (event) => {
-    event.stopPropagation();
-    if (window.confirm("Are you sure you want to delete this item?")) {
-      axios
-        .delete(`/posts/${item._id}`)
-        .then((response) => {
-          console.log("Item deleted:", response.data);
-          alert("Item deleted successfully!");
-        })
-        .catch((error) => {
-          console.error("There was an error deleting the item:", error);
-        });
-    }
-  };
-
   const handleEdit = (event) => {
     event.stopPropagation();
     onEdit(item.id);
@@ -32,7 +17,7 @@ function DataComponent({ item, onEdit, onDelete }) {
 
   return (
     <div className="data-component">
-      <img src={item.imageUrl} className="card-img-top" alt={item.title} />
+      <img src={item.urlToImage} className="card-img-top" alt={item.title} />
 
       <div className="data-description">
         <h5 className="data-title">{item.title}</h5>
@@ -50,7 +35,7 @@ function DataComponent({ item, onEdit, onDelete }) {
           src={deleteIcon}
           alt="Delete"
           className="card-delete-icon"
-          onClick={handleDelete}
+          onClick={() => onDelete()}
         />
       </div>
     </div>

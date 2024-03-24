@@ -12,10 +12,11 @@ const AdminDashboard = () => {
   const [description, setDescription] = useState("");
   const [data, setData] = useState([]);
   useEffect(() => {
-    // Fetch data from the backend when the component mounts
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/news");
+        const response = await axios.get(
+          "http://localhost:5001/news?school=VTECH"
+        );
         setData(response.data); // Set the data in state
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -54,28 +55,26 @@ const AdminDashboard = () => {
       );
       const imageUrl = cloudinaryResponse.data.secure_url;
 
-      // Then, construct the news item with the image URL
       const newsItem = {
         title: title,
         description: description,
-        imageUrl: imageUrl, // Use the URL from Cloudinary
+        urlToImage: imageUrl,
+        college: "UVA",
       };
 
-      // Finally, post the news item to your database
       const response = await axios.post(
         "http://localhost:5001/news",
         newsItem,
         {
           headers: {
-            "Content-Type": "application/json", // Indicate that you're sending JSON data
+            "Content-Type": "application/json",
           },
         }
       );
       console.log("News Item Saved:", response.data);
-      // Here you can update state, show a success message, navigate, etc.
+      window.location.reload();
     } catch (error) {
       console.error("Error:", error);
-      // Here you should handle errors, show error messages, etc.
     }
 
     // Close the modal after submission
@@ -92,9 +91,25 @@ const AdminDashboard = () => {
     console.log(`Editing data with id ${id}`);
   };
 
-  const handleDeleteData = (id) => {
-    // Logic to delete data with the given id
-    console.log(`Deleting data with id ${id}`);
+  const handleDeleteData = async (id) => {
+    // Ask the user for confirmation before deleting
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this item?"
+    );
+    if (!isConfirmed) {
+      return; // Early return if the user clicks Cancel
+    }
+
+    try {
+      // Proceed with deletion only if the user confirmed
+      await axios.delete(`http://localhost:5001/news/${id}`);
+      console.log(`Item with id ${id} deleted successfully`);
+
+      // Update the local state to remove the deleted item
+      setData(data.filter((item) => item._id !== id));
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
   };
 
   return (

@@ -2,6 +2,7 @@
   display: flex;
   align-items: center; /* Vertically align items in the center */
   gap: 20px; /* Adjust the space between the image and the text */
+  
 }
 
 .data-header {
@@ -13,15 +14,20 @@
 }
 
 .data-image {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 30px;
-  margin-right: 20px;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50px;
+    border: 10px solid #000000; /* Add border property here */
+    margin-right: 20px;
+  
 }
 
 .data-title {
-  margin: 50px;
+  margin-left: 3px;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 40px;
 }
 
 .data-description {
@@ -39,8 +45,8 @@
 .data-delete-btn {
   cursor: pointer;
   border: none;
-  padding: 10px;
-  margin-left: 10px;
+  padding: 60px;
+  margin-left: 60px;
   border-radius: 5px;
   font-weight: bold;
 }
@@ -56,28 +62,83 @@
 }
 
 .card-edit-icon {
-  width: 30px;
-  height: 25px;
-  margin-left: 10px;
+  width: 60px;
+  height: 50px;
+  margin-left: 5px;
   margin-top: 5px;
   cursor: pointer;
 }
 
 .card-delete-icon {
-  width: 20px;
-  height: 20px;
-  margin-left: 10px;
+  width: 40px;
+  height: 40px;
+  margin-left: 15px;
   margin-top: 4px;
   cursor: pointer;
 }
 .card-img-top {
-  width: 200px; /* Set your desired width */
-  height: 200px; /* Set your desired height */
+  width: 300px; /* Set your desired width */
+  height: 300px; /* Set your desired height */
   object-fit: cover;
+  border-color:#000000;
+  border-width: 50px;
 }
 .data-description {
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex-grow: 1; /* Ensure it takes up the remaining space */
+  font-size: 30px;
+  margin-left: 50px;
+}
+/* modal.css */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+.modal-content input[type="file"],
+.modal-content input[type="text"],
+.modal-content textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal-content textarea {
+  height: 100px;
+}
+
+.modal-content button {
+  padding: 8px 16px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-content button:last-child {
+  margin-right: 0;
 }

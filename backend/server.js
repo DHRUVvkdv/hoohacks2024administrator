@@ -33,18 +33,20 @@ const Item = mongoose.model(
   "SchoolNews",
   new mongoose.Schema({
     title: String,
-    imageUrl: String,
+    urlToImage: String,
     description: String,
+    college: String,
   })
 );
 
 // Routes
 app.post("/news", async (req, res) => {
-  const { title, imageUrl, description } = req.body;
+  const { title, urlToImage, description, college } = req.body;
   const newItem = new Item({
     title,
-    imageUrl,
+    urlToImage,
     description,
+    college,
   });
   try {
     const savedItem = await newItem.save();
@@ -60,6 +62,21 @@ app.get("/news", async (req, res) => {
     res.json(items);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+// DELETE Route for Deleting an Item by ID
+app.delete("/news/:id", async (req, res) => {
+  try {
+    const { id } = req.params; // Extract the ID from the request parameters
+    const deletedItem = await Item.findByIdAndDelete(id); // Attempt to find and delete the item by ID
+
+    if (!deletedItem) {
+      return res.status(404).json({ message: "Item not found." }); // Item not found
+    }
+
+    res.json({ message: "Item deleted successfully.", deletedItem }); // Respond with success message
+  } catch (err) {
+    res.status(500).json({ message: err.message }); // Server error occurred
   }
 });
 
