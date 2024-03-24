@@ -1,0 +1,61 @@
+.data-component {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .data-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .data-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 30px;
+    margin-right: 20px;
+  }
+  
+  .data-title {
+    margin: 0;
+  }
+  
+  .data-description {
+    margin-bottom: 20px;
+  }
+  
+  .data-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .data-edit-btn, .data-delete-btn {
+    cursor: pointer;
+    border: none;
+    padding: 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  .data-edit-btn {
+    background-color: #f0ad4e;
+    color: white;
+  }
+  
+  .data-delete-btn {
+    background-color: #d9534f;
+    color: white;
+  }
+  .card-edit-icon,
+  .card-delete-icon {
+	width: 20px; /* Set a fixed size for icons */
+	height: 20px;
+	margin-left: 10px; /* Adds space between the icons */
+	cursor: pointer; /* Changes cursor to pointer when hovering over the icons */
+  }
+  
