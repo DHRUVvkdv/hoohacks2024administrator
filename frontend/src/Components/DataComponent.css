@@ -3,13 +3,17 @@
     padding: 20px;
     margin: 10px 0;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(255, 0, 0, 0.1);
+    align-content: left;
+    justify-content: left;
   }
   
   .data-header {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    size: 50px;
+    font-weight: bold;
   }
   
   .data-image {
@@ -21,11 +25,12 @@
   }
   
   .data-title {
-    margin: 0;
+    margin: 50;
+    
   }
   
   .data-description {
-    margin-bottom: 20px;
+    margin-bottom: 50px;
   }
   
   .data-actions {
@@ -48,14 +53,32 @@
   }
   
   .data-delete-btn {
-    background-color: #d9534f;
+    background-color: #000000;
     color: white;
   }
-  .card-edit-icon,
+  .card-edit-icon{
+    width: 30px; /* Set a fixed size for icons */
+    height: 25px;
+    margin-left: 10px; /* Adds space between the icons */
+    margin-top: 5px;
+    cursor: pointer; /* Changes cursor to pointer when hovering over the icons */
+  }
   .card-delete-icon {
 	width: 20px; /* Set a fixed size for icons */
 	height: 20px;
 	margin-left: 10px; /* Adds space between the icons */
+  margin-top: 4px;
 	cursor: pointer; /* Changes cursor to pointer when hovering over the icons */
+  }
+
+  .welcome-message {
+    font-size: 50px;
+    font-weight: bold;
+    margin-bottom: 30px;
+
+  }
+
+  .add-button:hover {
+    color: #fff; /* Darker color on hover */
   }
   

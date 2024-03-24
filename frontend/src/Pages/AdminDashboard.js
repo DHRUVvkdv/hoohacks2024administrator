@@ -56,7 +56,12 @@ const AdminDashboard = () => {
   return (
     <div className="admin-dashboard">
       {/* Welcome message */}
-      <div className="welcome-message">Welcome, Administrator@UVA!</div>
+      <div className="welcome-message-container">
+        <div className="welcome-message">Welcome, Administrator @ UVA!</div>
+      </div>
+      <button className="add-button" onClick={handleAddData}>
+        +
+      </button>
 
       <div className="data-container">
         {data.map((item) => (
@@ -71,9 +76,7 @@ const AdminDashboard = () => {
         ))}
       </div>
 
-      <button className="add-button" onClick={handleAddData}>
-        +
-      </button>
+      
     </div>
   );
 };
